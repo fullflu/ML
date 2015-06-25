@@ -1,7 +1,7 @@
 #coding:utf-8
 '''
-Created on 2015/05/15
-koin
+Copyright (C) @fullflu
+
 '''
 import numpy as np
 import scipy as sp
@@ -16,14 +16,15 @@ from sklearn.metrics import precision_recall_curve, auc, confusion_matrix
 import random
 
 
+
 """
 --terminal command
 
 import minibatchSGD
 print("mean loss is{}".format(minibatchSGD.run()))
 
-#run()の引数には，データ（2次元配列）かファイルの名前を入れられる．
-#また，typeを指定してPAの種類を変えられる．
+#you can input some argument of run(), but when you input data, one of d or filename has to be kept None
+#and you can chaneg the type of Passive and Aggressive method
 
 """
 
