@@ -23,8 +23,8 @@ import random
 import minibatchSGD
 print("mean loss is{}".format(minibatchSGD.run()))
 
-#you can input some argument of run(), but when you input data, one of d or filename has to be kept None
-#and you can chaneg the type of Passive and Aggressive method
+#you can change some argument of run(), but when you input data, one of {d,filename} has to be kept None
+#and you can change the type of learning method
 
 """
 
@@ -116,6 +116,8 @@ def minibatch_input(filename,random_indices,minibatch_size,dimension,t):
 
 #----training function
 
+
+#linear classification based on hinge loss
 def pa_1(indices,minibatch_size,d,f,dimension,lam):
     n=len(indices)
     w = np.empty(dimension)#coefficient of linear model
@@ -174,15 +176,15 @@ def pa_1_loss(test,w,d,filename):
     loss=0
     
     for t in xrange(n):
-        random_indices = random.sample(test,n)
+        
         if d!=None:
-            dt = d[random_indices[t:t + minibatch_size]]
+            dt = d[test[t:t + minibatch_size]]
             [xt,yt] = minidata_input(dt)
         
         else:
-            [xt,yt] = minibatch_input(filename,random_indices,minibatch_size,dimension,t)
+            [xt,yt] = minibatch_input(filename,test,minibatch_size,dimension,t)
         
-    loss += max(0,1 - yt*xt.dot(w))
+        loss += max(0,1 - yt*xt.dot(w))
     loss /= n
     
     return loss
