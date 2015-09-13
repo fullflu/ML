@@ -1,10 +1,54 @@
 #coding:utf-8
 
+import pylibfm
+from sklearn.feature_extraction import DictVectorizer
 import numpy as np
 import pandas as pd
 import datetime
 #not completed
+#---
+cpdtr = pd.DataFrame()#rewrite here
+cpltr = pd.DataFrame()#rewrite here
+all_data = pd.DataFrame()#rewrite here
+len_tr = 3#rewrite here
+#---
+train_data = all_data[:len_tr]
+test_data = all_data[len_tr:]
 
+#---#explicit feedback ver
+train_data['y'] = 1.0
+w = train_data.groupby('user_id')
+trainlist = []
+y = []
+for name,group in w:
+    temp = group.merge(cpltr,how="right",on="coupon_id")
+    temp['u'] = name
+    #del(temp['date'])
+    temp = temp.fillna(0)
+    y = y + list(temp['y'])
+    temp = temp.drop('y',axis=1)
+    o = [temp.iloc[l,:].T.to_dict() for l in range(len(temp))]
+    trainlist = trainlist + o
+    
+v = DictVectorizer()
+X = v.fit_transform(trainlist)
+y = np.array(y)
+#y = np.repeat(1.0,X.shape[0])
+fm = pylibfm.FM()
+fm.fit(X,y)
+#fm.predict(v.transform({"user": "1", "item": "10", "age": 24}))
+fm.predict(v.transform(test_data)) #maybe , we should write --for i in xrange(test_data.shape[0])...-- ?
+
+#inplicit feedback ver -- put at r41f
+y = np.ones(len_tr)
+trainlist = [train_data.iloc[l,:].T.to_dict() for l in range(train_data.shape[0])]
+fm = pylibfm.FM()
+fm.fit(X,y)
+#fm.predict(v.transform({"user": "1", "item": "10", "age": 24}))
+fm.predict(v.transform(test_data)) #maybe , we should write --for i in xrange(test_data.shape[0])...-- ?
+
+
+"""
 cpltr = []
 cpdtr = []
 pred_all = []
@@ -69,4 +113,4 @@ def answer(model,ctfm):
 model = fm(cpfm)
 answer(model,ctfm)
 
-
+"""
