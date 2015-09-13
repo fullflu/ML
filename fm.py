@@ -17,6 +17,8 @@ len_tr = 3#rewrite here
 #---
 train_data = all_data[:len_tr]
 test_data = all_data[len_tr:]
+train_ulist = list(set(train_data['user_id'].values))
+train_ulist.sort()
 
 #---#explicit feedback ver
 train_data['y'] = 1.0
@@ -51,8 +53,16 @@ fm = pylibfm.FM()
 fm.fit(X,y)
 #fm.predict(v.transform({"user": "1", "item": "10", "age": 24}))
 fm.predict(v.transform(test_data)) #maybe , we should write --for i in xrange(test_data.shape[0])...-- ?
+"""
+new couponとの類似度が高い5クーポンのid,featureを保存
+for i in xrange(22765):
+    for j in xrange(310):
+        td = cplte.iloc[j,:].T.to_dict()
+        td['user_id'] = train_ulist[i]
+        #fm.predict({'u_id':train_ulist[i], 'c_id':cplte['coupon_id'].values[j], 'feature':;;, ...})
+        fm.predict(td)??
 
-
+"""
 """
 cpltr = []
 cpdtr = []
