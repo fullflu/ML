@@ -6,10 +6,13 @@ import numpy as np
 import pandas as pd
 import datetime
 #not completed
+#can replace U.dot(v) in top5() function
+
 #---
 cpdtr = pd.DataFrame()#rewrite here
 cpltr = pd.DataFrame()#rewrite here
 all_data = pd.DataFrame()#rewrite here
+#can add another feature here
 len_tr = 3#rewrite here
 #---
 train_data = all_data[:len_tr]
@@ -40,8 +43,10 @@ fm.fit(X,y)
 fm.predict(v.transform(test_data)) #maybe , we should write --for i in xrange(test_data.shape[0])...-- ?
 
 #inplicit feedback ver -- put at r41f
-y = np.ones(len_tr)
 trainlist = [train_data.iloc[l,:].T.to_dict() for l in range(train_data.shape[0])]
+v = DictVectorizer()
+X = v.fit_transform(trainlist)
+y = np.ones(len_tr)
 fm = pylibfm.FM()
 fm.fit(X,y)
 #fm.predict(v.transform({"user": "1", "item": "10", "age": 24}))
