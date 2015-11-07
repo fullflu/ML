@@ -54,7 +54,6 @@ fm.fit(X,y)
 #fm.predict(v.transform({"user": "1", "item": "10", "age": 24}))
 fm.predict(v.transform(test_data)) #maybe , we should write --for i in xrange(test_data.shape[0])...-- ?
 """
-new couponとの類似度が高い5クーポンのid,featureを保存
 for i in xrange(22765):
     for j in xrange(310):
         td = cplte.iloc[j,:].T.to_dict()
@@ -75,7 +74,7 @@ user_cnt = user_cnt.values[:,0]
 train_ulist = list(set(cpdtr['user_id'].values)).sort()
 cpdtr.index = cpdtr.shape[0]
 cpltr.sort('coupon_id')
-#1円とマックカードを抜く前処理
+#maeshori
 ulist = []
 uvec = []
 cvec = []
