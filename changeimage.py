@@ -14,10 +14,9 @@
   # the shape of "mean_gray.npy" is ((1,256,256))
 
 import numpy as np
-#import six.moves.cPickle as pickle
+import six.moves.cPickle as pickle
 from PIL import Image
 import os
-#ctrl+z -> do -> fg -> type 1
 
 pos="pos"
 neg="neg"
