@@ -40,19 +40,30 @@ os.mkdir("train")
 for i in posperm[:int(len(posl)*ratio)]:
 	path = os.path.join(posd,posl[i])
 	d = Image.open(path)
+	# judge which dimension to adjust
 	if d.size[0] > d.size[1]:
 		cr = 256.0 / d.size[0]
+		# change to gray_scale
 		d = d.convert("L")
+		# change image size keeping aspect ratio
 		d2 = d.resize((256,int(cr*d.size[1])))
+		# change image format from PIL to numpy.array
 		d3 = np.array(d2)
 		start = (256 - d2.size[1])/2
-		d4 = np.ones((256,256))*16
+		# assign unnecessary background_color to gray color
+		d4 = np.ones((256,256))*128
+		# overwrite gray image above by raw image
 		for j in range(d2.size[1]):
 			d4[start+j,:] = d3[j,:]
+		# add image to make mean_image
 		sum_image += d4
+		# change image format from numpy.array to PIL
 		d = Image.fromarray(np.uint8(d4))
+		# name of imagepath
 		name = os.path.join(now,"train","pos_"+posl[i])
+		# save image
 		d.save(name)
+		# write text file
 		f.write(name)
 		f.write(" 1")
 		f.write("\n")
