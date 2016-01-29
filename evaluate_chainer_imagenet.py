@@ -144,9 +144,6 @@ def feed_data():
     pool.close()
     pool.join()
     data_q.put("end")
-    pool.close()
-    pool.join()
-    data_q.put('end')
 
 def log_result():
     # Logger
