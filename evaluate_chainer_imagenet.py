@@ -1,6 +1,8 @@
 #!/usr/bin/env python
 #coding:utf-8
-
+#simple command: python evaluate_chainer_imagenet.py -g -1 test.txt
+#the format of test.txt is like that of train.txt used in chainer/examples/imagenet
+#you can run this evaluation code after saving model by chainer/examples/imagenet (for RGB images)
 from __future__ import print_function
 import argparse
 import math
@@ -96,7 +98,7 @@ res_q = queue.Queue()
 cropwidth = 256 - model.insize
 
 def read_image(path, center=False, flip=False):
-	# for simple input
+  # for simple RGB image input
     # Data loading routine
     image = np.asarray(Image.open(path)).transpose(2, 0, 1)
     if center:
