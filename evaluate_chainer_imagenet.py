@@ -196,9 +196,6 @@ def test_net():
             res_q.put('test')
             model.train = False
             continue
-        else:
-            print("miss inp to evaluate!!")
-            exit()
 
         volatile = 'off' if model.train else 'on'
         x = chainer.Variable(xp.asarray(inp[0]), volatile=volatile)
